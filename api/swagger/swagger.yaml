@@ -1,0 +1,223 @@
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: Viapool App
+# during dev, should point to your local machine
+host: localhost:8080
+# host: https://viapool.com:10010
+# basePath prefixes all resource paths
+basePath: /
+#
+schemes:
+  # tip: remove http to make production-grade
+  - http
+  - https
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+paths:
+  /drivers:
+    x-swagger-router-controller: driver.controller
+    get:
+      description: get the drivers list
+      operationId: getDrivers
+      parameters:
+        - name: name
+          in: query
+          type: string
+          required: false
+        - name: sort
+          in: query
+          type: string
+          required: false
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/GetDriverListResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    post:
+      description: add a new driver to the list
+      operationId: createDriver
+      parameters:
+        - name: driver
+          in: body
+          description: The driver to create
+          schema:
+            $ref: "#/definitions/Driver"
+      responses:
+        "201":
+          description: Success
+          schema:
+            $ref: "#/definitions/GetDriverResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /drivers/{id}:
+    x-swagger-router-controller: driver.controller
+    get:
+      description: get a driver
+      operationId: getDriverById
+      parameters:
+        - name: id
+          in: path
+          type: string
+          required: true
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/GetDriverResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    put:
+      description: update a driver
+      operationId: updateDriver
+      parameters:
+        - name: id
+          in: path
+          description: driver id
+          type: string
+          required: true
+        - in: body
+          name: driver
+          description: The driver to update
+          schema:
+            $ref: "#/definitions/Driver"
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/GetDriverResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    delete:
+      description: delete a driver
+      operationId: deleteDriver
+      parameters:
+        - name: id
+          description: driver id
+          type: string
+          in: path
+          required: true
+      responses:
+        "200":
+          description: Success
+          schema:
+            $ref: "#/definitions/GeneralResponse"
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /swagger:
+    x-swagger-pipe: swagger_raw
+# complex objects have schema definitions
+definitions:
+  Driver:
+    type: object
+    properties:
+      name:
+        type: string
+        description: Driver name
+      age:
+        type: integer
+        description: Driver age
+      phone:
+        type: string
+        description: Driver phone number
+      email:
+        type: string
+        description: Driver email
+      patent:
+        type: string
+        description: Driver patent
+      model:
+        type: string
+        description: Driver car model
+      year:
+        type: integer
+        description: Car year      
+    required:
+      - name
+      - age
+      - phone
+      - email
+      - patent
+      - model
+      - year
+  GetDriverResponse:
+    type: object
+    properties:
+      id:
+        type: string
+        description: identifier
+      name:
+        type: string
+        description: Driver name
+      age:
+        type: integer
+        description: Driver age
+      phone:
+        type: string
+        description: Driver phone number
+      email:
+        type: string
+        description: Driver email
+      patent:
+        type: string
+        description: Driver patent
+      model:
+        type: string
+        description: Driver car model
+      year:
+        type: integer
+        description: Car year      
+    required:
+      - name
+      - age
+      - phone
+      - email
+      - patent
+      - model
+      - year
+  GetDriverListResponse:
+    required:
+      - drivers
+    properties:
+      drivers:
+        type: array
+        items:
+          $ref: "#/definitions/GetDriverResponse"
+  GeneralResponse:
+    type: object
+    properties:
+      success:
+        type: number
+        description: returns 1 if successful
+      description:
+        type: string
+        description: a short comment
+    required:
+      - success
+      - description
+  ErrorResponse:
+    required:
+      - message
+    properties:
+      code:
+        type: number
+      message:
+        type: string
+      description:
+        type: string
