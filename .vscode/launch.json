@@ -12,6 +12,28 @@
                 "<node_internals>/**"
             ],
             "program": "${workspaceFolder}/app.js"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Tests",
+            "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+            "env": {
+                "DEBUG":"mocha:-",
+                "NODE_ENV": "test"
+            },
+            "args": [
+                "--timeout",
+                "999999",
+                "--colors",
+                "${workspaceFolder}/test/**/**/*.test.js",
+                "--exit"
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "outputCapture": "std",
+            "skipFiles": [
+                "<node_internals>/**"
+            ]
         }
     ]
 }
