@@ -2,9 +2,10 @@ swagger: "2.0"
 info:
   version: "0.0.1"
   title: Viapool App
+  description: This API allow us create, read, update and delete driver users.
 # during dev, should point to your local machine
 host: localhost:8080
-# host: https://viapool.com:10010
+# host: https://viapool.com:8080
 # basePath prefixes all resource paths
 basePath: /
 #
