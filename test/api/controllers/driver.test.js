@@ -1,5 +1,4 @@
 const assert = require('chai').assert;
-const sinon = require('sinon');
 const request = require('supertest');
 process.env.NODE_PORT = 8090
 const app = require('../../../app.js');
