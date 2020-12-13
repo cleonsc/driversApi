@@ -11,13 +11,10 @@ const DEFAULT_PORT = 8080;
 
 let server;
 
-
 // Start Express Server, configuring healthcheck, private routing and Install Middleware
 async function start(appRoot, port) {
   return new Promise((resolve, reject) => {
     try {
-      log.info(`${MODULE_NAME}:${start.name} (IN) --> params: app: <<ExpressApp>>, appRoot: ${appRoot}, port: ${port}`);
-
       // Swagger config
       const config = { appRoot };
 
@@ -55,13 +52,11 @@ async function start(appRoot, port) {
 }
 
 function stop() {
-  log.info(`${MODULE_NAME}:${stop.name} (IN) --> no params`);
-
   module.exports.server.close(() => { log.info(`${MODULE_NAME}:${stop.name} (OUT) --> App Server stopped`); });
 }
 
 module.exports = {
-  server, // for testing
+  server,
   start,
   stop,
 };
